@@ -1,0 +1,68 @@
+<app-header></app-header>
+
+<mat-card
+  class="container"
+  fxLayout="column"
+  fxLayoutAlign="center"
+  fxLayoutGap="10px">
+  <div class="todo-input" fxFlexAlign="center">
+    <mat-form-field>
+      <input matInput
+             type="text"
+             placeholder="What is your task?"
+             (blur)="addTodo()"
+             (keyup.enter)="addTodo()"
+             [(ngModel)]="inputTitle"/>
+    </mat-form-field>
+  </div>
+
+  <div class="todo-list">
+    <mat-table #table [dataSource]="dataSource">
+      <!-- Completed Column -->
+      <ng-container matColumnDef="completed">
+        <mat-cell *matCellDef="let element; let i = index;">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="toggleRow(i, element)"
+                        [checked]="element.completed">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <mat-cell *matCellDef="let element; let i = index;">
+          <span *ngIf="editRow != i"
+                [ngClass]="{'completed': element.completed}"
+                (click)="setEditing(i)">
+            {{element.title}}
+          </span>
+
+
+          <mat-form-field *ngIf="editRow == i">
+            <input matInput
+                   type="text"
+                   #editInput
+                   (blur)="updateRow(i, element)"
+                   (keyup.enter)="updateRow(i, element)"
+                   [(ngModel)]="element.title"/>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Remove Column -->
+      <ng-container matColumnDef="remove">
+        <mat-cell *matCellDef="let element; let i = index;">
+          <button mat-button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="removeRow(i, element)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</mat-card>

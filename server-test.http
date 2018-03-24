@@ -1,0 +1,35 @@
+GET http://localhost:3030/api/
+
+###
+
+POST http://localhost:3030/api/
+Content-Type: application/json
+
+{
+  "title": "TEST",
+  "completed": false
+}
+
+###
+
+GET http://localhost:3030/api/2
+
+###
+
+PUT http://localhost:3030/api/2
+Content-Type: application/json
+
+{
+  "title": "Update Test",
+  "completed": false
+}
+
+###
+
+GET http://localhost:3030/api/
+
+###
+
+DELETE http://localhost:3030/api/2
+
+###

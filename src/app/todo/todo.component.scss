@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 500px;
+  width: 50%;
+  margin: 10px auto;
+}
+
+.todo-input {
+  width: calc(100% - 124px);
+
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.todo-list {
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-column-completed {
+  overflow: visible;
+  flex: 0 0 40px;
+}
+
+.mat-column-title {
+  flex: 1 1;
+}
+
+.mat-column-remove {
+  flex: 0 0 40px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: lightgrey;
+}
