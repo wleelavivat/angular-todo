@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  todoRestURL: 'http://localhost:3030/api/'
+  todoRestURL: '/api/'
 };
