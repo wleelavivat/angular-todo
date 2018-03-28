@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {MatTableDataSource} from '@angular/material';
+import {FormControl, Validators} from '@angular/forms';
 
-import { Todo } from '../shared/todo';
-import { TodoService } from '../shared/todo.service';
+import {Todo} from '../shared/todo';
+import {TodoService} from '../shared/todo.service';
+
 
 @Component({
   selector: 'app-todo',
@@ -10,10 +12,13 @@ import { TodoService } from '../shared/todo.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  displayedColumns = ['completed', 'title', 'remove'];
+  displayedColumns = ['completed', 'title', 'priority', 'remove'];
   dataSource = new MatTableDataSource<Todo>();
   editRow: number;
   inputTitle: String = '';
+  inputPriority: number;
+  priorityFormControl = new FormControl('', [Validators.min(0)]);
+  summary = {};
 
   constructor(private todoService: TodoService) {
   }
@@ -37,8 +42,8 @@ export class TodoComponent implements OnInit {
   }
 
   addTodo() {
-    if (this.inputTitle) {
-      this.todoService.addTodo(this.inputTitle)
+    if (this.inputTitle && this.inputPriority) {
+      this.todoService.addTodo(this.inputTitle, this.inputPriority)
         .subscribe(data => {
           const todos: Todo[] = this.dataSource.data;
           todos.push(data);

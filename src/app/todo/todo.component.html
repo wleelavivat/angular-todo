@@ -8,18 +8,31 @@
   <div class="todo-input" fxFlexAlign="center">
     <mat-form-field>
       <input matInput
+             required
              type="text"
              placeholder="What is your task?"
-             (blur)="addTodo()"
-             (keyup.enter)="addTodo()"
              [(ngModel)]="inputTitle"/>
     </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             required
+             type="number"
+             placeholder="Priority"
+             [formControl]="priorityFormControl"
+             [(ngModel)]="inputPriority"/>
+      <mat-error>Please enter a value greater than or equal to 1</mat-error>
+    </mat-form-field>
+    <button mat-button
+            (click)="addTodo()">
+      Save
+    </button>
   </div>
 
   <div class="todo-list">
     <mat-table #table [dataSource]="dataSource">
       <!-- Completed Column -->
       <ng-container matColumnDef="completed">
+        <mat-header-cell *matHeaderCellDef> Header </mat-header-cell>
         <mat-cell *matCellDef="let element; let i = index;">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="toggleRow(i, element)"
@@ -30,13 +43,13 @@
 
       <!-- Title Column -->
       <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Tasks </mat-header-cell>
         <mat-cell *matCellDef="let element; let i = index;">
           <span *ngIf="editRow != i"
                 [ngClass]="{'completed': element.completed}"
                 (click)="setEditing(i)">
             {{element.title}}
           </span>
-
 
           <mat-form-field *ngIf="editRow == i">
             <input matInput
@@ -49,8 +62,19 @@
         </mat-cell>
       </ng-container>
 
+      <!-- Priority Column -->
+      <ng-container matColumnDef="priority">
+        <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index;">
+          <span>
+            {{element.priority}}
+          </span>
+        </mat-cell>
+      </ng-container>
+
       <!-- Remove Column -->
       <ng-container matColumnDef="remove">
+        <mat-header-cell *matHeaderCellDef> Remove </mat-header-cell>
         <mat-cell *matCellDef="let element; let i = index;">
           <button mat-button
                   matSuffix
@@ -62,6 +86,7 @@
         </mat-cell>
       </ng-container>
 
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
   </div>

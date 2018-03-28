@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -11,7 +11,8 @@ import {
   MatCheckboxModule,
   MatIconModule,
   MatButtonModule,
-  MatInputModule
+  MatInputModule,
+  MatFormFieldModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +34,7 @@ import { TodoService } from './shared/todo.service';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     HttpClientModule,
     AppRoutingModule,
@@ -43,6 +45,7 @@ import { TodoService } from './shared/todo.service';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

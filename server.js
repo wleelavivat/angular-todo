@@ -10,11 +10,13 @@ var db = {
   todos: [
     {
       title: 'Coffee',
-      completed: false
+      completed: false,
+      priority: 1,
     },
     {
       title: 'Code',
-      completed: false
+      completed: false,
+      priority: 2,
     }
   ]
 };

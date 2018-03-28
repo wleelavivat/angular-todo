@@ -15,8 +15,8 @@ export class TodoService {
     return this.http.get<Todo[]>(this.todoRestURL);
   }
 
-  addTodo (title: String) {
-    return this.http.post<Todo>(this.todoRestURL, new Todo(title));
+  addTodo (title: String, priority: number) {
+    return this.http.post<Todo>(this.todoRestURL, new Todo(title, priority));
   }
 
   updateTodo (id: number, todo: Todo) {
