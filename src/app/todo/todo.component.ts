@@ -25,7 +25,10 @@ export class TodoComponent implements OnInit {
 
   ngOnInit() {
     this.todoService.getTodoList()
-      .subscribe(data => this.dataSource.data = data);
+      .subscribe(data => {
+        this.dataSource.data = data;
+        this.getSummary();
+      });
   }
 
   setEditing(index) {
@@ -49,7 +52,25 @@ export class TodoComponent implements OnInit {
           todos.push(data);
           this.dataSource.data = todos;
           this.inputTitle = '';
+          this.getSummary();
         });
+    }
+  }
+
+  getSummary() {
+    const group = {};
+    this.dataSource.data.forEach((ele) => {
+      if (!group[ele.priority]) {
+        group[ele.priority] = [ele];
+      } else {
+        group[ele.priority].push(ele);
+      }
+    });
+
+    for (let k in group) {
+      if (group[k].length > 1) {
+        this.summary[k] = group[k].length;
+      }
     }
   }
 
