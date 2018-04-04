@@ -16,12 +16,9 @@ export class TodoComponent implements OnInit {
   dataSource = new MatTableDataSource<Todo>();
   editRow: number;
   inputTitle: String = '';
-  inputPriority: number;
-  priorityFormControl = new FormControl('', [Validators.min(0)]);
   summary = {};
 
-  constructor(private todoService: TodoService) {
-  }
+  constructor(private todoService: TodoService) {  }
 
   ngOnInit() {
     this.todoService.getTodoList()
@@ -37,16 +34,15 @@ export class TodoComponent implements OnInit {
 
   toggleRow(index, row) {
     row.completed = !row.completed;
-    this.todoService.updateTodo(index, row)
+    this.todoService.updateTodo(row)
       .subscribe(data => {
         row = data;
         console.log('Toggled ', row.title, ' to ', row.completed);
       });
   }
 
-  addTodo() {
-    if (this.inputTitle && this.inputPriority) {
-      this.todoService.addTodo(this.inputTitle, this.inputPriority)
+  addTodo(todo: Todo) {
+      return this.todoService.addTodo(todo)
         .subscribe(data => {
           const todos: Todo[] = this.dataSource.data;
           todos.push(data);
@@ -54,22 +50,21 @@ export class TodoComponent implements OnInit {
           this.inputTitle = '';
           this.getSummary();
         });
-    }
   }
 
   getSummary() {
-    const group = {};
-    this.dataSource.data.forEach((ele) => {
-      if (!group[ele.priority]) {
-        group[ele.priority] = [ele];
-      } else {
-        group[ele.priority].push(ele);
+    this.summary = {};
+    const group = this.dataSource.data.reduce((acc, ele) => {
+      if (!acc[ele.priority]) {
+        acc[ele.priority] = 0;
       }
-    });
+      acc[ele.priority]++;
+      return acc;
+    }, {});
 
-    for (let k in group) {
-      if (group[k].length > 1) {
-        this.summary[k] = group[k].length;
+    for (const k in group) {
+      if (group[k] > 1) {
+        this.summary[k] = group[k];
       }
     }
   }
@@ -77,19 +72,21 @@ export class TodoComponent implements OnInit {
   removeRow(index, row) {
     console.log('Removing ', row.title, '(', index, ')');
 
-    this.todoService.deleteTodo(index)
+    this.todoService.deleteTodo(row.id)
       .subscribe(data => {
         const todos: Todo[] = this.dataSource.data;
         todos.splice(index, 1);
         this.dataSource.data = todos;
+        this.getSummary();
       });
   }
 
   updateRow(index, row) {
-    this.todoService.updateTodo(index, row)
+    this.todoService.updateTodo(row)
       .subscribe(data => {
         row = data;
         this.editRow = -1;
+        this.getSummary();
       });
   }
 }

@@ -15,12 +15,12 @@ export class TodoService {
     return this.http.get<Todo[]>(this.todoRestURL);
   }
 
-  addTodo (title: String, priority: number) {
-    return this.http.post<Todo>(this.todoRestURL, new Todo(title, priority));
+  addTodo (todo: Todo) {
+    return this.http.post<Todo>(this.todoRestURL, todo);
   }
 
-  updateTodo (id: number, todo: Todo) {
-    return this.http.put<Todo>(this.todoRestURL + id, todo);
+  updateTodo (todo: Todo) {
+    return this.http.put<Todo>(this.todoRestURL + todo.id, todo);
   }
 
   deleteTodo (id: number) {

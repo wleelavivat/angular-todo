@@ -1,19 +1,23 @@
-var express = require('express');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var app = express();
-var router = express.Router();
+const uuidv4 = require('uuid/v4');
+const isNumber = require('is-number');
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
+const router = express.Router({});
 
 // "Database" object
-var db = {
+const db = {
   todos: [
     {
+      id: uuidv4(),
       title: 'Coffee',
       completed: false,
       priority: 1,
     },
     {
+      id: uuidv4(),
       title: 'Code',
       completed: false,
       priority: 2,
@@ -23,8 +27,13 @@ var db = {
 
 // CREATE
 router.post('/', function (req, res) {
-  console.log(req.body);
-  if (req.body.title && typeof req.body.completed !== "undefined") {
+  console.log('Create new Todo:', req.body);
+  if (
+    req.body.title &&
+    isNumber(req.body.priority) &&
+    typeof req.body.completed !== "undefined"
+  ) {
+    req.body.id = uuidv4();
     db.todos.push(req.body);
     res.json(req.body);
   } else {
@@ -36,13 +45,15 @@ router.post('/', function (req, res) {
 // READ
 // -- LIST
 router.get('/', function (req, res) {
+  console.log('Get All Todo');
   res.json(db.todos);
 });
 
 // -- ONE
 router.get('/:id', function (req, res) {
-  var id = req.params.id;
-  var todo = db.todos[id];
+  console.log('Retrieve Todo with id:', req.params.id);
+  let id = req.params.id;
+  let todo = db.todos.filter((ele) => ele.id === id);
   if (todo) {
     res.json(todo);
   } else {
@@ -53,8 +64,9 @@ router.get('/:id', function (req, res) {
 
 // UPDATE
 router.put('/:id', function (req, res) {
-  var id = req.params.id;
-  var todo = db.todos[id];
+  console.log('Update Todo with id:', req.params.id);
+  let id = req.params.id;
+  let todo = db.todos.filter((ele) => ele.id === id);
   if (todo) {
     db.todos[id] = req.body;
     res.json(req.body)
@@ -66,8 +78,9 @@ router.put('/:id', function (req, res) {
 
 // DELETE
 router.delete('/:id', function (req, res) {
-  var id = req.params.id;
-  var todo = db.todos[id];
+  console.log('Delete Todo with id:', req.params.id);
+  let id = req.params.id;
+  let todo = db.todos.filter((ele) => ele.id === id);
   if (todo) {
     db.todos.splice(id, 1);
     res.status(200);

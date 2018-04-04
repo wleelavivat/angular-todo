@@ -5,34 +5,14 @@
   fxLayout="column"
   fxLayoutAlign="center"
   fxLayoutGap="10px">
-  <div class="todo-input" fxFlexAlign="center">
-    <mat-form-field>
-      <input matInput
-             required
-             type="text"
-             placeholder="What is your task?"
-             [(ngModel)]="inputTitle"/>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput
-             required
-             type="number"
-             placeholder="Priority"
-             [formControl]="priorityFormControl"
-             [(ngModel)]="inputPriority"/>
-      <mat-error>Please enter a value greater than or equal to 1</mat-error>
-    </mat-form-field>
-    <button mat-button
-            (click)="addTodo()">
-      Save
-    </button>
-  </div>
+
+  <app-todo-form (submitted)="addTodo($event)"></app-todo-form>
 
   <div class="todo-list">
     <mat-table #table [dataSource]="dataSource">
       <!-- Completed Column -->
       <ng-container matColumnDef="completed">
-        <mat-header-cell *matHeaderCellDef> Header </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Done? </mat-header-cell>
         <mat-cell *matCellDef="let element; let i = index;">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="toggleRow(i, element)"
@@ -44,17 +24,16 @@
       <!-- Title Column -->
       <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef> Tasks </mat-header-cell>
-        <mat-cell *matCellDef="let element; let i = index;">
+        <mat-cell *matCellDef="let element; let i = index;" (click)="setEditing(i)">
           <span *ngIf="editRow != i"
                 [ngClass]="{'completed': element.completed}"
-                (click)="setEditing(i)">
+                >
             {{element.title}}
           </span>
 
           <mat-form-field *ngIf="editRow == i">
             <input matInput
                    type="text"
-                   #editInput
                    (blur)="updateRow(i, element)"
                    (keyup.enter)="updateRow(i, element)"
                    [(ngModel)]="element.title"/>
@@ -65,8 +44,8 @@
       <!-- Priority Column -->
       <ng-container matColumnDef="priority">
         <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
-        <mat-cell *matCellDef="let element; let i = index;">
-          <span>
+        <mat-cell *matCellDef="let element;">
+          <span [ngClass]="{'completed': element.completed}">
             {{element.priority}}
           </span>
         </mat-cell>

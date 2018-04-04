@@ -22,13 +22,17 @@ import { HeaderComponent } from './header/header.component';
 import { TodoComponent } from './todo/todo.component';
 
 import { TodoService } from './shared/todo.service';
+import { TodoFormComponent } from './todo/todo-form/todo-form.component';
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    TodoComponent
+    TodoComponent,
+    TodoFormComponent,
+    TodoListComponent
   ],
   imports: [
     BrowserModule,

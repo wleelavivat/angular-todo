@@ -1,0 +1,24 @@
+<form class="todo-input" [formGroup]="todoForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+  <mat-form-field>
+    <input matInput
+           required
+           type="text"
+           placeholder="What is your task?"
+           formControlName="title">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput
+           required
+           type="number"
+           placeholder="Priority"
+           formControlName="priority"/>
+    <mat-error *ngIf="todoForm.get('priority')?.invalid">Value must be greater than or equal to 1</mat-error>
+  </mat-form-field>
+  <div class="text-center">
+    <button mat-raised-button
+            color="primary"
+            type="submit">
+      Submit
+    </button>
+  </div>
+</form>
