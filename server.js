@@ -1,5 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const isNumber = require('is-number');
+const _ = require('lodash');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -54,7 +55,7 @@ router.get('/:id', function (req, res) {
   console.log('Retrieve Todo with id:', req.params.id);
   let id = req.params.id;
   let todo = db.todos.filter((ele) => ele.id === id);
-  if (todo) {
+  if (todo.length) {
     res.json(todo);
   } else {
     res.status(500);
@@ -66,9 +67,9 @@ router.get('/:id', function (req, res) {
 router.put('/:id', function (req, res) {
   console.log('Update Todo with id:', req.params.id);
   let id = req.params.id;
-  let todo = db.todos.filter((ele) => ele.id === id);
-  if (todo) {
-    db.todos[id] = req.body;
+  let index = _.findIndex(db.todos, {id});
+  if (index) {
+    db.todos[index] = req.body;
     res.json(req.body)
   } else {
     res.status(500);
@@ -80,9 +81,9 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
   console.log('Delete Todo with id:', req.params.id);
   let id = req.params.id;
-  let todo = db.todos.filter((ele) => ele.id === id);
-  if (todo) {
-    db.todos.splice(id, 1);
+  let index = _.findIndex(db.todos, {id});
+  if (index) {
+    db.todos.splice(index, 1);
     res.status(200);
   } else {
     res.status(500);

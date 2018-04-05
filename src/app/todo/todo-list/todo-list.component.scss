@@ -1,0 +1,26 @@
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-column-completed {
+  overflow: visible;
+  flex: 0 0 60px;
+}
+
+.mat-column-title {
+  flex: 1 1;
+}
+
+.mat-column-priority {
+  flex: 0 0 120px;
+}
+
+.mat-column-remove {
+  flex: 0 0 60px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: lightgrey;
+}

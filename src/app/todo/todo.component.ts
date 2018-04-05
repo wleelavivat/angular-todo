@@ -12,10 +12,7 @@ import {TodoService} from '../shared/todo.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  displayedColumns = ['completed', 'title', 'priority', 'remove'];
-  dataSource = new MatTableDataSource<Todo>();
-  editRow: number;
-  inputTitle: String = '';
+  todoList: Todo[];
   summary = {};
 
   constructor(private todoService: TodoService) {  }
@@ -23,38 +20,24 @@ export class TodoComponent implements OnInit {
   ngOnInit() {
     this.todoService.getTodoList()
       .subscribe(data => {
-        this.dataSource.data = data;
+        this.todoList = data;
         this.getSummary();
-      });
-  }
-
-  setEditing(index) {
-    this.editRow = index;
-  }
-
-  toggleRow(index, row) {
-    row.completed = !row.completed;
-    this.todoService.updateTodo(row)
-      .subscribe(data => {
-        row = data;
-        console.log('Toggled ', row.title, ' to ', row.completed);
       });
   }
 
   addTodo(todo: Todo) {
       return this.todoService.addTodo(todo)
         .subscribe(data => {
-          const todos: Todo[] = this.dataSource.data;
+          const todos: Todo[] = [...this.todoList];
           todos.push(data);
-          this.dataSource.data = todos;
-          this.inputTitle = '';
+          this.todoList = todos;
           this.getSummary();
         });
   }
 
   getSummary() {
     this.summary = {};
-    const group = this.dataSource.data.reduce((acc, ele) => {
+    const group = this.todoList.reduce((acc, ele) => {
       if (!acc[ele.priority]) {
         acc[ele.priority] = 0;
       }
@@ -69,26 +52,23 @@ export class TodoComponent implements OnInit {
     }
   }
 
-  removeRow(index, row) {
-    console.log('Removing ', row.title, '(', index, ')');
-
-    this.todoService.deleteTodo(row.id)
-      .subscribe(data => {
-        const todos: Todo[] = this.dataSource.data;
-        todos.splice(index, 1);
-        this.dataSource.data = todos;
-        this.getSummary();
-      });
-  }
-
-  updateRow(index, row) {
+  updateRow(row: Todo) {
     this.todoService.updateTodo(row)
       .subscribe(data => {
-        row = data;
-        this.editRow = -1;
+        this.todoList[data.id] = data;
+      });
+  }
+
+  removeRow(event: object) {
+    this.todoService.deleteTodo(event.row.id)
+      .subscribe(data => {
+        const todos: Todo[] = [...this.todoList];
+        todos.splice(event.index, 1);
+        this.todoList = todos;
         this.getSummary();
       });
   }
+
 }
 
 
