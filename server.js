@@ -68,7 +68,7 @@ router.put('/:id', function (req, res) {
   console.log('Update Todo with id:', req.params.id);
   let id = req.params.id;
   let index = _.findIndex(db.todos, {id});
-  if (index) {
+  if (index > -1) {
     db.todos[index] = req.body;
     res.json(req.body)
   } else {
@@ -82,7 +82,7 @@ router.delete('/:id', function (req, res) {
   console.log('Delete Todo with id:', req.params.id);
   let id = req.params.id;
   let index = _.findIndex(db.todos, {id});
-  if (index) {
+  if (index > -1) {
     db.todos.splice(index, 1);
     res.status(200);
   } else {

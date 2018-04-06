@@ -14,7 +14,8 @@ export class TodoListComponent implements OnInit, OnChanges {
 
   displayedColumns = ['completed', 'title', 'priority', 'remove'];
   dataSource = new MatTableDataSource<Todo>();
-  editRow: number;
+  private editRow: number;
+  private editColumn: String;
 
   constructor() { }
 
@@ -28,8 +29,9 @@ export class TodoListComponent implements OnInit, OnChanges {
     }
   }
 
-  setEditing(index) {
-    this.editRow = index;
+  setEditing(row, column) {
+    this.editRow = row;
+    this.editColumn = column;
   }
 
   toggleRow(row) {

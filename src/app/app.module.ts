@@ -24,6 +24,8 @@ import { TodoComponent } from './todo/todo.component';
 import { TodoService } from './shared/todo.service';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { AutofocusDirective } from './shared/autofocus.directive';
+import { TodoInsightComponent } from './todo/todo-insight/todo-insight.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { TodoListComponent } from './todo/todo-list/todo-list.component';
     HeaderComponent,
     TodoComponent,
     TodoFormComponent,
-    TodoListComponent
+    TodoListComponent,
+    AutofocusDirective,
+    TodoInsightComponent
   ],
   imports: [
     BrowserModule,

@@ -14,5 +14,6 @@
     (removeTodo)="removeRow($event)"
   ></app-todo-list>
 
-  <span>{{summary | json}}</span>
+  <h3>Insight</h3>
+  <app-todo-insight [todoList]="todoList"></app-todo-insight>
 </mat-card>

@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
-import {FormControl, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { findIndex } from 'lodash';
 
-import {Todo} from '../shared/todo';
-import {TodoService} from '../shared/todo.service';
+import { Todo } from '../shared/todo';
+import { TodoService } from '../shared/todo.service';
 
 
 @Component({
@@ -12,60 +11,48 @@ import {TodoService} from '../shared/todo.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  todoList: Todo[];
-  summary = {};
+  private _todoList: Todo[];
 
-  constructor(private todoService: TodoService) {  }
+  constructor(private todoService: TodoService) {
+  }
+
+  set todoList(todoList: Todo[]) {
+    this._todoList = todoList;
+  }
+
+  get todoList() {
+    return this._todoList;
+  }
 
   ngOnInit() {
     this.todoService.getTodoList()
       .subscribe(data => {
         this.todoList = data;
-        this.getSummary();
       });
   }
 
   addTodo(todo: Todo) {
-      return this.todoService.addTodo(todo)
-        .subscribe(data => {
-          const todos: Todo[] = [...this.todoList];
-          todos.push(data);
-          this.todoList = todos;
-          this.getSummary();
-        });
-  }
-
-  getSummary() {
-    this.summary = {};
-    const group = this.todoList.reduce((acc, ele) => {
-      if (!acc[ele.priority]) {
-        acc[ele.priority] = 0;
-      }
-      acc[ele.priority]++;
-      return acc;
-    }, {});
-
-    for (const k in group) {
-      if (group[k] > 1) {
-        this.summary[k] = group[k];
-      }
-    }
+    return this.todoService.addTodo(todo)
+      .subscribe(data => {
+        const todos: Todo[] = [...this.todoList];
+        todos.push(data);
+        this.todoList = todos;
+      });
   }
 
   updateRow(row: Todo) {
     this.todoService.updateTodo(row)
       .subscribe(data => {
-        this.todoList[data.id] = data;
+        this.todoList[findIndex(this.todoList, {id: data.id})] = data;
       });
   }
 
-  removeRow(event: object) {
+  removeRow(event: any) {
     this.todoService.deleteTodo(event.row.id)
       .subscribe(data => {
         const todos: Todo[] = [...this.todoList];
         todos.splice(event.index, 1);
         this.todoList = todos;
-        this.getSummary();
       });
   }
 

@@ -13,16 +13,19 @@
   <!-- Title Column -->
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Tasks</mat-header-cell>
-    <mat-cell *matCellDef="let element; let i = index;" (click)="setEditing(i)">
-          <span *ngIf="editRow != i"
-                [ngClass]="{'completed': element.completed}"
-          >
-            {{element.title}}
-          </span>
+    <mat-cell *matCellDef="let element; let i = index;">
+      <span
+        *ngIf="editRow != i || editColumn != 'title'"
+        (click)="setEditing(i, 'title')"
+        [ngClass]="{'completed': element.completed}"
+      >
+        {{element.title}}
+      </span>
 
-      <mat-form-field *ngIf="editRow == i">
+      <mat-form-field *ngIf="editRow == i && editColumn == 'title'">
         <input matInput
                type="text"
+               [autofocus]="editRow == i"
                (blur)="updateRow(i, element)"
                (keyup.enter)="updateRow(i, element)"
                [(ngModel)]="element.title"/>
@@ -34,9 +37,11 @@
   <ng-container matColumnDef="priority">
     <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
     <mat-cell *matCellDef="let element;">
-          <span [ngClass]="{'completed': element.completed}">
-            {{element.priority}}
-          </span>
+      <span
+        [ngClass]="{'completed': element.completed}"
+      >
+        {{element.priority}}
+      </span>
     </mat-cell>
   </ng-container>
 

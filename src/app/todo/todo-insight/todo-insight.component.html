@@ -1,0 +1,8 @@
+<p>
+  Duplicate priority tasks in ToDo List:
+</p>
+<ul>
+  <li *ngIf="insight['priorityCount'].length < 1; else showList">None</li>
+  <li #showList *ngFor="let ele of insight['priorityCount']">{{ele.count}} items with Priority {{ele.priority}}</li>
+</ul>
+

@@ -4,8 +4,8 @@
 }
 
 .mat-column-completed {
-  overflow: visible;
   flex: 0 0 60px;
+  overflow: visible;
 }
 
 .mat-column-title {
@@ -13,14 +13,22 @@
 }
 
 .mat-column-priority {
-  flex: 0 0 120px;
+  flex: 0 0 80px;
+  text-align: center;
 }
 
 .mat-column-remove {
   flex: 0 0 60px;
+  text-align: center;
 }
 
 .completed {
   text-decoration: line-through;
   color: lightgrey;
+}
+
+.mat-cell {
+  mat-form-field {
+    width: 100%;
+  }
 }
