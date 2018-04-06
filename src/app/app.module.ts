@@ -26,6 +26,10 @@ import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { AutofocusDirective } from './shared/autofocus.directive';
 import { TodoInsightComponent } from './todo/todo-insight/todo-insight.component';
+import { PhoneDirectoryComponent } from './phone-directory/phone-directory.component';
+import { PhoneListComponent } from './phone-directory/phone-list/phone-list.component';
+import { PhoneContactComponent } from './phone-directory/phone-contact/phone-contact.component';
+import {PagerDutyService} from './shared/pager-duty.service';
 
 
 @NgModule({
@@ -36,7 +40,10 @@ import { TodoInsightComponent } from './todo/todo-insight/todo-insight.component
     TodoFormComponent,
     TodoListComponent,
     AutofocusDirective,
-    TodoInsightComponent
+    TodoInsightComponent,
+    PhoneDirectoryComponent,
+    PhoneListComponent,
+    PhoneContactComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +62,7 @@ import { TodoInsightComponent } from './todo/todo-insight/todo-insight.component
     MatInputModule,
     MatFormFieldModule,
   ],
-  providers: [TodoService],
+  providers: [TodoService, PagerDutyService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

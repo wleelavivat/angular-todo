@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  todoRestURL: '/api/'
+  todoRestURL: '/api/',
+  pagerDutyURL: 'https://api.pagerduty.com/',
 };

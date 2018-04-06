@@ -1,0 +1,9 @@
+<p>
+  Contact List Index:
+</p>
+<ul>
+  <li *ngFor="let user of phoneList['users']">
+    <a href="phone/{{user.id}}">{{user.name}} </a>
+  </li>
+</ul>
+
